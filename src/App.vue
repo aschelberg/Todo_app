@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col min-h-screen font-Roboto bg-todo-primary">
+  <div class="flex flex-col min-h-screen font-Roboto bg-todo-primary w-full">
     <HomeView />
   </div>
 </template>
