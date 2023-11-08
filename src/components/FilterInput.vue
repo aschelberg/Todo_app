@@ -1,6 +1,6 @@
 <template>
   <!-- Add list/completed/deleted icon for full list -->
-  <div class="flex container flex-1 gap-4 justify-center text-2xl py-4 text-white w-[50%] max-sm:flex-col max-sm:text-sm">
+  <div class="flex container flex-1 gap-4 justify-center text-2xl py-4 text-white w-[75%] max-sm:flex-col max-sm:text-sm">
     <button
       class="bg-todo-secondary hover:text-todo-secondary hover:bg-white focus:bg-white focus:text-black duration-150 cursor-pointer py-2 px-4 rounded-lg"
       @click="updateFilter('all')"
