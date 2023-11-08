@@ -10,10 +10,17 @@
     </button>
     <button
       class="bg-todo-secondary hover:text-todo-secondary hover:bg-white focus:bg-white focus:text-black duration-150 cursor-pointer py-2 px-4 rounded-lg"
-      @click="updateFilter('hideCompleted')"
-      :class="{ hideCompleted: filter === 'hideCompleted' }"
+      @click="updateFilter('incomplete')"
+      :class="{ showAll: filter === 'incomplete' }"
     >
-      Hide Completed
+      Incomplete
+    </button>
+    <button
+      class="bg-todo-secondary hover:text-todo-secondary hover:bg-white focus:bg-white focus:text-black duration-150 cursor-pointer py-2 px-4 rounded-lg"
+      @click="updateFilter('completed')"
+      :class="{ hideCompleted: filter === 'completed' }"
+    >
+      Completed
     </button>
     <button
       class="bg-todo-secondary hover:text-todo-secondary hover:bg-white focus:bg-white focus:text-black duration-150 cursor-pointer py-2 px-4 rounded-lg"

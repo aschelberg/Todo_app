@@ -42,8 +42,10 @@ if (localStorage.getItem("savedTodos")) {
 const filteredTodos = computed(() => {
   if (filter.value === "all") {
     return savedTodos.value;
-  } else if (filter.value === "hideCompleted") {
-    return savedTodos.value.filter((todo) => !todo.completed);
+  } else if (filter.value === "incomplete") {
+    return savedTodos.value.filter((todo) => !todo.deleted && !todo.completed);
+  } else if (filter.value === "completed") {
+    return savedTodos.value.filter((todo) => todo.completed);
   } else if (filter.value === "deleted") {
     return savedTodos.value.filter((todo) => todo.deleted);
   }
