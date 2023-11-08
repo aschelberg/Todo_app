@@ -4,7 +4,7 @@
   >
     <div class="flex flex-col" :class="{ greyOut : todo.deleted }">
       <div class="text-2xl max-sm:text-sm">{{ todo.text }}</div>
-      <div class="text-sm max-sm:hidden">Added: {{ todo.createdOn }}</div>
+      <div class="text-sm max-sm:text-xs">Created: {{ moment(todo.createdOn).fromNow() }}</div>
     </div>
     <div class="flex gap-4 flex-1 justify-end text-white text-4xl">
       <i
@@ -22,7 +22,6 @@
 </template>
 
 <script setup>
-import { computed } from '@vue/reactivity';
 import moment from 'moment'
 
 const props = defineProps({

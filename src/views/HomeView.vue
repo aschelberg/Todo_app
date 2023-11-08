@@ -21,7 +21,7 @@ import { useDateFormat } from "@vueuse/core";
 import AddTodoInput from "../components/AddTodoInput.vue";
 import FilterInput from "../components/FilterInput.vue";
 import TodoCard from "../components/TodoCard.vue";
-import { computed, ref, watch } from "vue";
+import { VueElement, computed, ref, watch } from "vue";
 import { uid } from "uid";
 import SiteNavigation from "../components/SiteNavigation.vue";
 
