@@ -3,7 +3,7 @@
     class="flex flex-row p-4 bg-todo-secondary text-white mb-3 container items-center gap-4 py-6 rounded-xl text-2xl"
   >
     <div class="flex flex-col" :class="{ greyOut : todo.deleted }">
-      <div class="text-2xl max-sm:text-md">{{ todo.text }}</div>
+      <div class="text-2xl max-sm:text-sm">{{ todo.text }}</div>
       <div class="text-sm max-sm:hidden">Added: {{ todo.createdOn }}</div>
     </div>
     <div class="flex gap-4 flex-1 justify-end text-white text-4xl">

@@ -6,12 +6,12 @@
         name="text"
         v-model="todoText"
         placeholder="Enter a new Todo"
-        class="flex flex-1 py-2 px-1 bg-transparent border-b text-2xl w-full focus:outline-none"
+        class="flex flex-1 py-2 px-1 bg-transparent border-b text-2xl w-full focus:outline-none max-sm:text-sm"
       />
       <button
         class="py-2 px-1 border-b text-2xl hover:text-todo-secondary hover:rounded-md duration-150 cursor-pointer"
       >
-        <i class="fa-solid fa-plus"></i>
+        <i class="fa-solid fa-plus max-sm:text-sm"></i>
       </button>
     </form>
   </main>
