@@ -53,7 +53,7 @@ const addTodo = (todoText) => {
   const todoObj = {
     id: uid(),
     text: todoText,
-    createdOn: new Date(),
+    createdOn: useDateFormat(new Date(), "MMM DD, YYYY"),
     completed: false,
     completedOn: null,
     deleted: false,

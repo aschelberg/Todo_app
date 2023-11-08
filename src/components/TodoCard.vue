@@ -8,13 +8,13 @@
     </div>
     <div class="flex gap-4 flex-1 justify-end text-white text-4xl">
       <i
-        class="fa-solid fa-check hover:text-todo-primary duration-50 cursor-pointer"
-        :class="{ completed : todo.completed }, { hideButton : !todo.completed} "
+        class="fa-solid fa-check text-todo-primary duration-50 cursor-pointer"
+        :class="{ completed : todo.completed } "
         @click="completeTodo(todo)"
       ></i>
       <i
-        class="fa-solid fa-trash hover:text-todo-primary duration-50 cursor-pointer"
-        :class="{ deleted : todo.deleted }, { hideButton : !todo.deleted}"
+        class="fa-solid fa-trash text-todo-primary duration-50 cursor-pointer"
+        :class="{ deleted : todo.deleted }"
         @click="deleteTodo(todo)"
       ></i>
     </div>
