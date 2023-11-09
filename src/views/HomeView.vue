@@ -1,11 +1,10 @@
 <template>
-  <SiteNavigation />
   <div class="flex flex-col container">
     <FilterInput @getFilter="updateFilter" />
     <AddTodoInput @todoAdded="addTodo" class="container" />
-
-    <ul class="container">
+    <ul>
       <TodoCard
+        class="cursor-pointer hover:border-[1px] hover:border-white duration-150"
         v-for="todo in filteredTodos"
         :key="todo.id"
         :todo="todo"
@@ -21,9 +20,10 @@ import { useDateFormat } from "@vueuse/core";
 import AddTodoInput from "../components/AddTodoInput.vue";
 import FilterInput from "../components/FilterInput.vue";
 import TodoCard from "../components/TodoCard.vue";
-import { VueElement, computed, ref, watch } from "vue";
+import EditTodo from "../components/EditTodo.vue";
+import { computed, ref, watch } from "vue";
 import { uid } from "uid";
-import SiteNavigation from "../components/SiteNavigation.vue";
+import moment from "moment";
 
 const filter = ref("all");
 const updateFilter = (filterType) => {
@@ -34,10 +34,6 @@ const savedTodos = ref([]);
 if (localStorage.getItem("savedTodos")) {
   savedTodos.value = JSON.parse(localStorage.getItem("savedTodos"));
 }
-
-// watch(savedTodos, () => {
-//   localStorage.setItem("savedTodos", JSON.stringify(savedTodos.value));
-// });
 
 const filteredTodos = computed(() => {
   if (filter.value === "all") {
@@ -55,11 +51,13 @@ const addTodo = (todoText) => {
   const todoObj = {
     id: uid(),
     text: todoText,
-    createdOn: useDateFormat(new Date(), "MMM DD, YYYY"),
+    createdOn: moment().format(),
     completed: false,
     completedOn: null,
     deleted: false,
     deletedOn: null,
+    dueDate: null,
+    description: "placeholder",
   };
 
   savedTodos.value.push(todoObj);
@@ -76,11 +74,7 @@ const completeTodo = (id) => {
 
 const deleteTodo = (id) => {
   const todo = savedTodos.value.find((t) => t.id === id);
-  if (todo.deleted) {
-    const todoIndex = savedTodos.value.findIndex((t) => t.id === id);
-    savedTodos.value.splice(todoIndex, 1);
-  }
-  todo.deleted = true;
+  todo.deleted = !todo.deleted;
 
   todo.deletedOn = useDateFormat(new Date(), "MMM DD, YYYY");
   localStorage.setItem("savedTodos", JSON.stringify(savedTodos.value));
