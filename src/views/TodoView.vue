@@ -20,7 +20,7 @@ if (localStorage.getItem("savedTodos")) {
 const updateEdits = (edits) => {
   const todo = savedTodos.value.find((t) => t.id === edits.id);
   todo.text = edits.title;
-  todo.description = edits.todoDescription;
+  todo.description = edits.description;
   todo.dueDate = moment(edits.dueDate).format("L");
   localStorage.setItem("savedTodos", JSON.stringify(savedTodos.value));
 };

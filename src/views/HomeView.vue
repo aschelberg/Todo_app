@@ -9,7 +9,7 @@
         :key="todo.id"
         :todo="todo"
         @todoCompleted="completeTodo"
-        @todoDeleted="deleteTodo"
+        @todoArchived="archiveTodo"
       />
     </ul>
   </div>
@@ -20,10 +20,8 @@ import { useDateFormat } from "@vueuse/core";
 import AddTodoInput from "../components/AddTodoInput.vue";
 import FilterInput from "../components/FilterInput.vue";
 import TodoCard from "../components/TodoCard.vue";
-import EditTodo from "../components/EditTodo.vue";
 import { computed, ref, watch } from "vue";
 import { uid } from "uid";
-import moment from "moment";
 
 const filter = ref("all");
 const updateFilter = (filterType) => {
@@ -39,11 +37,11 @@ const filteredTodos = computed(() => {
   if (filter.value === "all") {
     return savedTodos.value;
   } else if (filter.value === "incomplete") {
-    return savedTodos.value.filter((todo) => !todo.deleted && !todo.completed);
+    return savedTodos.value.filter((todo) => !todo.archived && !todo.completed);
   } else if (filter.value === "completed") {
     return savedTodos.value.filter((todo) => todo.completed);
-  } else if (filter.value === "deleted") {
-    return savedTodos.value.filter((todo) => todo.deleted);
+  } else if (filter.value === "archived") {
+    return savedTodos.value.filter((todo) => todo.archived);
   }
 });
 
@@ -51,11 +49,11 @@ const addTodo = (todoText) => {
   const todoObj = {
     id: uid(),
     text: todoText,
-    createdOn: moment().format(),
+    createdOn: useDateFormat(new Date(), "MMM DD, YYYY"),
     completed: false,
     completedOn: null,
-    deleted: false,
-    deletedOn: null,
+    archived: false,
+    archivedOn: null,
     dueDate: null,
     description: "placeholder",
   };
@@ -72,11 +70,11 @@ const completeTodo = (id) => {
   localStorage.setItem("savedTodos", JSON.stringify(savedTodos.value));
 };
 
-const deleteTodo = (id) => {
+const archiveTodo = (id) => {
   const todo = savedTodos.value.find((t) => t.id === id);
-  todo.deleted = !todo.deleted;
+  todo.archived = !todo.archived;
 
-  todo.deletedOn = useDateFormat(new Date(), "MMM DD, YYYY");
+  todo.archivedOn = useDateFormat(new Date(), "MMM DD, YYYY");
   localStorage.setItem("savedTodos", JSON.stringify(savedTodos.value));
 };
 </script>

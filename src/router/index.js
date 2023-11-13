@@ -14,7 +14,7 @@ const router = createRouter({
       },
     },
     {
-      path: "/",
+      path: "/:id/edits",
       name: "todoView",
       component: TodoView,
       meta: {

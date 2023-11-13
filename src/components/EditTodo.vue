@@ -27,7 +27,7 @@
         type="date"
         id="due"
         name="due-date"
-        class="text-xl rounded-md"
+        class="text-xl rounded-md px-2 py-1"
         v-model="todoDueDate"
       />
     </div>
@@ -38,32 +38,56 @@
     >
       Submit
     </button>
+
+    <!-- delete button element -->
+    <button
+      class=" text-white bg-red-500 hover:text-todo-secondary hover:bg-white focus:bg-white focus:text-black duration-150 cursor-pointer mt-2 py-2 px-4 rounded-lg"
+      @click="removeTodo()"
+    >
+      Remove
+    </button>
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import moment from 'moment'
+// import moment from 'moment'
 const route = useRoute();
 const router = useRouter();
 
-const emit = defineEmits(["editsAdded"]);
+const savedTodos = ref([])
+const currentTodo = ref([])
+if (localStorage.getItem("savedTodos")) {
+  savedTodos.value = JSON.parse(localStorage.getItem("savedTodos"));
+  currentTodo.value = savedTodos.value.find((t) => t.id === route.params.id)
+}
 
-const todoTitle = ref(route.query.title)
-const todoDescription = ref(route.query.description);
-const todoDueDate = ref();
+
+
+const todoTitle = ref(currentTodo.value.text)
+const todoDescription = ref(currentTodo.value.description);
+const todoDueDate = ref(currentTodo.value.dueDate);
 
 const setTodoEdits = () => {
-  const edits = {
-    id: route.query.id,
-    title: todoTitle.value,
-    description: todoDescription.value,
-    dueDate: moment(todoDueDate.value).format('L'),
-  };
-  emit("editsAdded", edits);
+  const todo = savedTodos.value.find((t) => t.id === route.params.id);
+  todo.text = todoTitle.value;
+  todo.description = todoDescription.value;
+  todo.dueDate = todoDueDate.value;
+  
+  localStorage.setItem('savedTodos',JSON.stringify(savedTodos.value));
   router.push({
     name: "home",
   });
 };
+
+const removeTodo = () => {
+  const todoIndex = savedTodos.value.findIndex((t) => t.id === route.params.id);
+  console.log(todoIndex)
+  savedTodos.value.splice(todoIndex, 1)
+  localStorage.setItem('savedTodos',JSON.stringify(savedTodos.value));
+  router.push({
+    name: "home",
+  })
+}
 </script>

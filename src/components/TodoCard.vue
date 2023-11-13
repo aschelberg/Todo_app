@@ -3,17 +3,17 @@
     class="flex flex-row p-4 bg-todo-secondary text-white mb-3 container items-center gap-2 py-3 rounded-xl text-2xl"
   >
     <div
-      class="flex flex-col flex-1"
-      :class="{ greyOut: todo.deleted }"
+      class="flex flex-col flex-1 justify-between"
+      :class="{ greyOut: todo.completed }"
       @click="goToTodoView(todo)"
     >
-      <div class="text-2xl max-sm:text-sm">{{ todo.text }}</div>
+      <div class="flex text-2xl max-sm:text-sm">{{ todo.text }}</div>
       <div class="text-sm max-sm:text-xs">
-        Created: {{ moment(todo.createdOn).fromNow() }}
+        Created: {{ todo.createdOn }}
       </div>
-      <!-- <div class="text-sm max-sm:text-xs">
-        Due: {{ moment(todo.dueDate).format('L') }}
-      </div> -->
+      <div class="text-sm max-sm:text-xs">
+        Due: {{ todo.dueDate }}
+      </div>
     </div>
     <div class="flex gap-4 justify-end text-white text-4xl pr-2">
       <i
@@ -22,16 +22,15 @@
         @click="completeTodo(todo)"
       ></i>
       <i
-        class="fa-solid fa-trash max-sm:text-sm text-todo-primary duration-50 cursor-pointer"
-        :class="{ deleted: todo.deleted }"
-        @click="deleteTodo(todo)"
+        class="fa-solid fa-box-archive max-sm:text-sm text-todo-primary duration-50 cursor-pointer"
+        :class="{ archived: todo.archived }"
+        @click="archiveTodo(todo)"
       ></i>
     </div>
   </li>
 </template>
 
 <script setup>
-import moment from "moment";
 import { useRouter } from "vue-router";
 
 const props = defineProps({
@@ -40,26 +39,21 @@ const props = defineProps({
     default: () => ({}),
   },
 });
-const emit = defineEmits(["todoCompleted", "todoDeleted", "goToEditView"]);
+const emit = defineEmits(["todoCompleted", "todoArchived", "goToEditView"]);
 
 const completeTodo = (todo) => {
   emit("todoCompleted", todo.id);
 };
 
-const deleteTodo = (todo) => {
-  emit("todoDeleted", todo.id);
+const archiveTodo = (todo) => {
+  emit("todoArchived", todo.id);
 };
 
 const router = useRouter();
 const goToTodoView = (todo) => {
   router.push({
-    name: "todoView",
-    query: {
-      title: todo.text,
-      id: todo.id,
-      description: todo.description,
-      dueDate: todo.dueDate,
-    },
+    name: `todoView`,
+    params: { id: todo.id },
   });
 };
 </script>
@@ -74,8 +68,8 @@ const goToTodoView = (todo) => {
   color: greenyellow;
   opacity: 1;
 }
-.deleted {
-  color: red;
+.archived {
+  color: blue;
 }
 .hideButton {
   opacity: 0;
