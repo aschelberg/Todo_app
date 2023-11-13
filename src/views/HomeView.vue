@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { useDateFormat } from "@vueuse/core";
+import { useDateFormat, useNow } from "@vueuse/core";
 import AddTodoInput from "../components/AddTodoInput.vue";
 import FilterInput from "../components/FilterInput.vue";
 import TodoCard from "../components/TodoCard.vue";
@@ -49,7 +49,7 @@ const addTodo = (todoText) => {
   const todoObj = {
     id: uid(),
     text: todoText,
-    createdOn: useDateFormat(new Date(), "MMM DD, YYYY"),
+    createdOn: useDateFormat(useNow(), "MMM DD, YYYY"),
     completed: false,
     completedOn: null,
     archived: false,
@@ -66,7 +66,7 @@ const completeTodo = (id) => {
   const todo = savedTodos.value.find((t) => t.id === id);
   todo.completed = !todo.completed;
 
-  todo.completedOn = useDateFormat(new Date(), "MMM DD, YYYY");
+  todo.completedOn = useDateFormat(useNow(), "MMM DD, YYYY (ddd)");
   localStorage.setItem("savedTodos", JSON.stringify(savedTodos.value));
 };
 
@@ -74,7 +74,7 @@ const archiveTodo = (id) => {
   const todo = savedTodos.value.find((t) => t.id === id);
   todo.archived = !todo.archived;
 
-  todo.archivedOn = useDateFormat(new Date(), "MMM DD, YYYY");
+  todo.archivedOn = useDateFormat(useNow(), "MMM DD, YYYY (ddd)");
   localStorage.setItem("savedTodos", JSON.stringify(savedTodos.value));
 };
 </script>

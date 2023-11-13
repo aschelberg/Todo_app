@@ -50,6 +50,8 @@
 </template>
 
 <script setup>
+import { computed } from "@vue/reactivity";
+import { useDateFormat } from "@vueuse/shared";
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 // import moment from 'moment'
@@ -63,8 +65,6 @@ if (localStorage.getItem("savedTodos")) {
   currentTodo.value = savedTodos.value.find((t) => t.id === route.params.id)
 }
 
-
-
 const todoTitle = ref(currentTodo.value.text)
 const todoDescription = ref(currentTodo.value.description);
 const todoDueDate = ref(currentTodo.value.dueDate);
@@ -73,7 +73,7 @@ const setTodoEdits = () => {
   const todo = savedTodos.value.find((t) => t.id === route.params.id);
   todo.text = todoTitle.value;
   todo.description = todoDescription.value;
-  todo.dueDate = todoDueDate.value;
+  todo.dueDate = todoDueDate.value
   
   localStorage.setItem('savedTodos',JSON.stringify(savedTodos.value));
   router.push({
@@ -83,7 +83,6 @@ const setTodoEdits = () => {
 
 const removeTodo = () => {
   const todoIndex = savedTodos.value.findIndex((t) => t.id === route.params.id);
-  console.log(todoIndex)
   savedTodos.value.splice(todoIndex, 1)
   localStorage.setItem('savedTodos',JSON.stringify(savedTodos.value));
   router.push({
