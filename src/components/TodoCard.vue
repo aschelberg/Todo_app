@@ -8,10 +8,11 @@
       @click="goToTodoView(todo)"
     >
       <div class="flex text-2xl max-sm:text-sm">{{ todo.text }}</div>
-      <div class="text-sm max-sm:text-xs">
-        Created: {{ todo.createdOn }}
-      </div>
-      <div class="text-sm max-sm:text-xs">
+      <div class="text-sm max-sm:text-xs">Created: {{ todo.createdOn }}</div>
+      <div
+        v-show="todo.dueDate !== 'Invalid Date'"
+        class="text-sm max-sm:text-xs"
+      >
         Due {{ todo.toDueDate }}
       </div>
     </div>
@@ -57,8 +58,6 @@ const goToTodoView = (todo) => {
     params: { id: todo.id },
   });
 };
-
-
 </script>
 
 <style scoped>
