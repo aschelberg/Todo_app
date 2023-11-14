@@ -11,9 +11,9 @@
       <div class="text-sm max-sm:text-xs">
         Created: {{ todo.createdOn }}
       </div>
-      <!-- <div class="text-sm max-sm:text-xs">
+      <div class="text-sm max-sm:text-xs">
         Due: {{ todo.dueDate }}
-      </div> -->
+      </div>
     </div>
     <div class="flex gap-4 justify-end text-white text-4xl pr-2">
       <i
@@ -31,6 +31,7 @@
 </template>
 
 <script setup>
+import dayjs from "dayjs";
 import { useRouter } from "vue-router";
 
 const props = defineProps({
@@ -39,6 +40,7 @@ const props = defineProps({
     default: () => ({}),
   },
 });
+
 const emit = defineEmits(["todoCompleted", "todoArchived", "goToEditView"]);
 
 const completeTodo = (todo) => {
@@ -56,6 +58,8 @@ const goToTodoView = (todo) => {
     params: { id: todo.id },
   });
 };
+
+
 </script>
 
 <style scoped>

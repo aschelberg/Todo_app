@@ -50,8 +50,7 @@
 </template>
 
 <script setup>
-import { computed } from "@vue/reactivity";
-import { useDateFormat } from "@vueuse/shared";
+import dayjs from "dayjs";
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 // import moment from 'moment'
@@ -67,14 +66,14 @@ if (localStorage.getItem("savedTodos")) {
 
 const todoTitle = ref(currentTodo.value.text)
 const todoDescription = ref(currentTodo.value.description);
-const todoDueDate = ref(currentTodo.value.dueDate);
+const todoDueDate = ref(dayjs(currentTodo.value.dueDate).format('YYYY-MM-DD'));
 
 const setTodoEdits = () => {
   const todo = savedTodos.value.find((t) => t.id === route.params.id);
   todo.text = todoTitle.value;
   todo.description = todoDescription.value;
-  todo.dueDate = todoDueDate.value
-  
+  todo.dueDate = dayjs(todoDueDate.value).format('MM/DD/YYYY');
+
   localStorage.setItem('savedTodos',JSON.stringify(savedTodos.value));
   router.push({
     name: "home",
