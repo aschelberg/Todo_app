@@ -12,7 +12,7 @@
         Created: {{ todo.createdOn }}
       </div>
       <div class="text-sm max-sm:text-xs">
-        Due: {{ todo.dueDate }}
+        Due {{ todo.toDueDate }}
       </div>
     </div>
     <div class="flex gap-4 justify-end text-white text-4xl pr-2">
@@ -31,7 +31,6 @@
 </template>
 
 <script setup>
-import dayjs from "dayjs";
 import { useRouter } from "vue-router";
 
 const props = defineProps({

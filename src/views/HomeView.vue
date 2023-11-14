@@ -55,6 +55,7 @@ const addTodo = (todoText) => {
     archived: false,
     archivedOn: null,
     dueDate: null,
+    toDueDate: null,
     description: "placeholder",
   };
 

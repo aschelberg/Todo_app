@@ -51,6 +51,7 @@
 
 <script setup>
 import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 // import moment from 'moment'
@@ -73,6 +74,8 @@ const setTodoEdits = () => {
   todo.text = todoTitle.value;
   todo.description = todoDescription.value;
   todo.dueDate = dayjs(todoDueDate.value).format('MM/DD/YYYY');
+  dayjs.extend(relativeTime)
+  todo.toDueDate = dayjs().to(todoDueDate.value);
 
   localStorage.setItem('savedTodos',JSON.stringify(savedTodos.value));
   router.push({
