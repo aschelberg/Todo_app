@@ -4,6 +4,7 @@
     <button
       class="bg-todo-secondary hover:text-todo-secondary hover:bg-white focus:bg-white focus:text-black duration-150 cursor-pointer py-2 px-4 rounded-lg"
       @click="updateFilter('all')"
+      
       :class="{ showAll: filter === 'all' }"
     >
       All
@@ -35,11 +36,10 @@
 <script setup>
 import { ref } from "vue";
 
-const emit = defineEmits(["getFilter"]);
-
-const filter = ref("all")
+const filter = ref('all')
 const updateFilter = (filterType) => {
-  filter.value = filterType
   emit("getFilter", filterType);
 };
+
+const emit = defineEmits(["getFilter"]);
 </script>
