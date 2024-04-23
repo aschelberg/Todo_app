@@ -59,7 +59,6 @@ const props = defineProps({
 const dueBy = computed(() => {
   dayjs.extend(relativeTime)
   props.todo.toDueDate = dayjs().to(props.todo.dueDate);
-  console.log(props.todo.toDueDate)
   return props.todo.toDueDate
 });
 
