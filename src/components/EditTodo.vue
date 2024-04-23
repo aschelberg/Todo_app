@@ -75,7 +75,7 @@ const setTodoEdits = () => {
   todo.description = todoDescription.value;
   todo.dueDate = dayjs(todoDueDate.value).format('MM/DD/YYYY');
   dayjs.extend(relativeTime)
-  todo.toDueDate = dayjs().to(todoDueDate.value);
+  // todo.toDueDate = dayjs().to(todoDueDate.value);
 
   localStorage.setItem('savedTodos',JSON.stringify(savedTodos.value));
   router.push({

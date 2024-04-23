@@ -9,12 +9,24 @@
     >
       <div class="flex text-2xl max-sm:text-sm">{{ todo.text }}</div>
       <div class="text-sm max-sm:text-xs">Created: {{ todo.createdOn }}</div>
+      
       <div
-        v-show="todo.dueDate !== 'Invalid Date'"
+        v-if="todo.completed"
         class="text-sm max-sm:text-xs"
-      >
-        Due {{ todo.toDueDate }}
+        >
+        <div>
+          Completed {{ todo.completedOn }}
+        </div>
       </div>
+      <div
+        v-else
+        class="text-sm max-sm:text-xs"
+        >
+        <div v-show="todo.dueDate !== null">
+          Due {{ dueBy }}
+        </div>
+      </div>
+      
     </div>
     <div class="flex gap-4 justify-end text-white text-4xl pr-2">
       <i
@@ -32,13 +44,23 @@
 </template>
 
 <script setup>
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import { useRouter } from "vue-router";
+import { computed } from "vue";
 
 const props = defineProps({
   todo: {
     type: Object,
     default: () => ({}),
   },
+});
+
+const dueBy = computed(() => {
+  dayjs.extend(relativeTime)
+  props.todo.toDueDate = dayjs().to(props.todo.dueDate);
+  console.log(props.todo.toDueDate)
+  return props.todo.toDueDate
 });
 
 const emit = defineEmits(["todoCompleted", "todoArchived", "goToEditView"]);
