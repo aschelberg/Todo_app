@@ -1,29 +1,27 @@
 <template>
-  <SiteNavigation />
   <div class="flex flex-col container">
     <FilterInput @getFilter="updateFilter" />
     <AddTodoInput @todoAdded="addTodo" class="container" />
-
-    <ul class="container">
+    <ul>
       <TodoCard
+        class="cursor-pointer hover:border-[1px] hover:border-white duration-150"
         v-for="todo in filteredTodos"
         :key="todo.id"
         :todo="todo"
         @todoCompleted="completeTodo"
-        @todoDeleted="deleteTodo"
+        @todoArchived="archiveTodo"
       />
     </ul>
   </div>
 </template>
 
 <script setup>
-import { useDateFormat } from "@vueuse/core";
+import dayjs from 'dayjs';
 import AddTodoInput from "../components/AddTodoInput.vue";
 import FilterInput from "../components/FilterInput.vue";
 import TodoCard from "../components/TodoCard.vue";
-import { VueElement, computed, ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { uid } from "uid";
-import SiteNavigation from "../components/SiteNavigation.vue";
 
 const filter = ref("all");
 const updateFilter = (filterType) => {
@@ -35,19 +33,15 @@ if (localStorage.getItem("savedTodos")) {
   savedTodos.value = JSON.parse(localStorage.getItem("savedTodos"));
 }
 
-// watch(savedTodos, () => {
-//   localStorage.setItem("savedTodos", JSON.stringify(savedTodos.value));
-// });
-
 const filteredTodos = computed(() => {
   if (filter.value === "all") {
     return savedTodos.value;
   } else if (filter.value === "incomplete") {
-    return savedTodos.value.filter((todo) => !todo.deleted && !todo.completed);
+    return savedTodos.value.filter((todo) => !todo.archived && !todo.completed);
   } else if (filter.value === "completed") {
     return savedTodos.value.filter((todo) => todo.completed);
-  } else if (filter.value === "deleted") {
-    return savedTodos.value.filter((todo) => todo.deleted);
+  } else if (filter.value === "archived") {
+    return savedTodos.value.filter((todo) => todo.archived);
   }
 });
 
@@ -55,11 +49,14 @@ const addTodo = (todoText) => {
   const todoObj = {
     id: uid(),
     text: todoText,
-    createdOn: useDateFormat(new Date(), "MMM DD, YYYY"),
+    createdOn: dayjs(new Date()).format('MM/DD/YYYY'),
     completed: false,
     completedOn: null,
-    deleted: false,
-    deletedOn: null,
+    archived: false,
+    archivedOn: null,
+    dueDate: null,
+    toDueDate: null,
+    description: "placeholder",
   };
 
   savedTodos.value.push(todoObj);
@@ -70,19 +67,15 @@ const completeTodo = (id) => {
   const todo = savedTodos.value.find((t) => t.id === id);
   todo.completed = !todo.completed;
 
-  todo.completedOn = useDateFormat(new Date(), "MMM DD, YYYY");
+  todo.completedOn = dayjs(new Date()).format('MM/DD/YYYY');
   localStorage.setItem("savedTodos", JSON.stringify(savedTodos.value));
 };
 
-const deleteTodo = (id) => {
+const archiveTodo = (id) => {
   const todo = savedTodos.value.find((t) => t.id === id);
-  if (todo.deleted) {
-    const todoIndex = savedTodos.value.findIndex((t) => t.id === id);
-    savedTodos.value.splice(todoIndex, 1);
-  }
-  todo.deleted = true;
+  todo.archived = !todo.archived;
 
-  todo.deletedOn = useDateFormat(new Date(), "MMM DD, YYYY");
+  todo.archivedOn = dayjs(new Date()).format('MM/DD/YYYY');
   localStorage.setItem("savedTodos", JSON.stringify(savedTodos.value));
 };
 </script>

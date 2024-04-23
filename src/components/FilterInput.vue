@@ -24,10 +24,10 @@
     </button>
     <button
       class="bg-todo-secondary hover:text-todo-secondary hover:bg-white focus:bg-white focus:text-black duration-150 cursor-pointer py-2 px-4 rounded-lg"
-      @click="updateFilter('deleted')"
-      :class="{ deleted: filter === 'deleted' }"
+      @click="updateFilter('archived')"
+      :class="{ archived: filter === 'archived' }"
     >
-      Deleted
+      Archived
     </button>
   </div>
 </template>
